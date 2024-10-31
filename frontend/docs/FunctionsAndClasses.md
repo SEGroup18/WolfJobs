@@ -159,3 +159,53 @@ data: {
 application,
 },
 success: true
+
+### IX. Function Save Job
+
+#### Parameters:
+- `userId` (string): The ID of the user.
+- `jobId` (string): The ID of the job to save (optional for retrieval only).
+
+#### Method:
+- `'POST'`
+
+#### Description:
+The `saveJob` function makes an API call to save a specific job to the user's saved jobs list. If `jobId` is provided, the function saves the job for the user if it hasn't already been saved. If `jobId` is omitted, it retrieves the list of all saved jobs for the user.
+
+#### Output:
+- **On Success**:
+  ```json
+  {
+    "message": "Job saved successfully" or "List of saved jobs retrieved successfully",
+    "data": [list of saved jobs],
+    "success": true
+  }
+  ```
+- **On Error**:
+  - 404 for "User not found"
+  - 500 for "Internal Server Error"
+
+### X. Function Unsave Job
+
+#### Parameters:
+- `userId` (string): The ID of the user.
+- `jobId` (string): The ID of the job to unsave.
+
+#### Method:
+- `'POST'`
+
+#### Description:
+The `unsaveJob` function makes an API call to remove a specific job from the user's saved jobs list.
+
+#### Output:
+- **On Success**:
+  ```json
+  {
+    "message": "Job unsaved successfully",
+    "data": [list of remaining saved jobs],
+    "success": true
+  }
+  ```
+- **On Error**:
+  - 404 for "User not found"
+  - 500 for "Internal Server Error"
