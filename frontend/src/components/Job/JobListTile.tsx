@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react";
-import { HiOutlineArrowRight, HiOutlineBookmark } from "react-icons/hi";
+import { HiOutlineArrowRight } from "react-icons/hi";
 import { useSearchParams } from "react-router-dom";
 import { useApplicationStore } from "../../store/ApplicationStore";
 import { useUserStore } from "../../store/UserStore";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { saveJobURL } from "../../api/constants";
 
 const JobListTile = (props: any) => {
+  // const { data, action }: { data: Job; action: string | undefined } = props;
   const { data }: { data: Job } = props;
   let action = "view-more";
 
   const [active, setActive] = useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const userId = useUserStore((state) => state.id);
+
   const userRole = useUserStore((state) => state.role);
+
   const applicationList: Application[] = useApplicationStore(
     (state) => state.applicationList
   );
+
   const [application, setApplication] = useState<Application | null>(null);
-  const [isJobSaved, setIsJobSaved] = useState<boolean>(false);
 
   useEffect(() => {
     const temp: Application | undefined = applicationList.find(
-      (item: Application) => item.jobid === data._id && item.applicantid === userId
+      (item: Application) => {
+        return item.jobid === data._id && item.applicantid === userId;
+      }
     );
     setApplication(temp || null);
-  }, [data, applicationList, userId]);
-
-  useEffect(() => {
-    const savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
-    const jobExists = savedJobs.some((job: Job) => job._id === data._id);
-    setIsJobSaved(jobExists);
+    console.log(temp);
   }, [data]);
 
   const affilation = data.managerAffilication;
@@ -42,38 +39,13 @@ const JobListTile = (props: any) => {
   useEffect(() => {
     const id = searchParams.get("jobId");
     setActive(data._id === id);
-  }, [searchParams, data]);
+  }, [searchParams]);
 
   const handleClick = (e: any) => {
     e.preventDefault();
     setSearchParams({ jobId: data._id });
   };
 
-
-  const handleSaveJob = async (e: any) => {
-    e.stopPropagation();
-    try {
-      if (isJobSaved) {
-        // Unsave job
-        await axios.delete(saveJobURL, {
-          data: { jobId: data._id, userId },
-        });
-        setIsJobSaved(false);
-        toast.info("Job unsaved.");
-      } else {
-        // Save job
-        await axios.post(saveJobURL, {
-          jobId: data._id,
-          userId,
-        });
-        setIsJobSaved(true);
-        toast.success("Job saved successfully!");
-      }
-    } catch (error) {
-      console.error("Error saving job:", error);
-      toast.error("Failed to save job.");
-    }
-  };
   const getAffiliationTag = (tag: string) => {
     return tag.split("-").join(" ");
   };
@@ -88,6 +60,8 @@ const JobListTile = (props: any) => {
     }
     return "bg-[#FF2A2A]/10";
   };
+
+  // const isClosed = data.status !== "0";
 
   const handleKnowMore = (e: any) => {
     e.stopPropagation();
@@ -104,10 +78,18 @@ const JobListTile = (props: any) => {
 
   return (
     <div className="my-3 " onClick={handleClick}>
-      <div className={`p-3 bg-white rounded-xl shadow-sm ${active ? "border-black " : "border-white"} border`}>
+      <div
+        className={`p-3 bg-white rounded-xl shadow-sm ${
+          active ? "border-black " : "border-white"
+        } border`}
+      >
         <div className="flex flex-row">
           <div className="w-4/6 ">
-            <div className={`w-fit ${getAffiliationColour(affilation)} rounded-2xl px-3 py-0`}>
+            <div
+              className={`w-fit ${getAffiliationColour(
+                affilation
+              )} rounded-2xl px-3 py-0`}
+            >
               <p className="inline text-xs" style={{ width: "fit-content" }}>
                 {getAffiliationTag(affilation).toUpperCase()}
               </p>
@@ -119,7 +101,11 @@ const JobListTile = (props: any) => {
               </p>
               <p className="text-base">
                 <b>Job Status:</b>
-                <span className={`${data.status === "closed" ? "text-[#FF5353]" : ""}`}>
+                <span
+                  className={`${
+                    data.status === "closed" ? "text-[#FF5353]" : ""
+                  }`}
+                >
                   &nbsp;<span className="capitalize">{data.status}</span>
                 </span>
               </p>
@@ -128,7 +114,8 @@ const JobListTile = (props: any) => {
               </p>
               <p className="text-base">
                 {userRole === "Applicant" &&
-                  ((application !== null && application?.status === "accepted") ||
+                  ((application !== null &&
+                    application?.status === "accepted") ||
                   application?.status === "rejected" ? (
                     <span className="capitalize">
                       <b>Application Status:</b>&nbsp;{application?.status}
@@ -143,33 +130,39 @@ const JobListTile = (props: any) => {
           </div>
           <div className="w-2/6  flex flex-col-reverse text-right">
             {action === "view-more" || !action ? (
-              <p className="inline-flex items-center flex-row-reverse text-xs text-[#656565]" onClick={handleKnowMore}>
+              <p
+                className="inline-flex items-center flex-row-reverse text-xs text-[#656565]"
+                onClick={handleKnowMore}
+              >
                 <HiOutlineArrowRight />
                 Know more&nbsp;
               </p>
-            ) : null}
+            ) : (
+              <></>
+            )}
             {action === "view-questionnaire" ? (
-              <p className="inline-flex items-center flex-row-reverse text-xs text-[#00B633]" onClick={handleFillQuestionnaire}>
+              <p
+                className="inline-flex items-center flex-row-reverse text-xs text-[#00B633]"
+                onClick={handleFillQuestionnaire}
+              >
                 <HiOutlineArrowRight />
                 Fill Questionnaire&nbsp;
               </p>
-            ) : null}
+            ) : (
+              <></>
+            )}
             {action === "view-application" ? (
-              <p className="inline-flex items-center flex-row-reverse text-xs text-[#656565]" onClick={handleViewApplication}>
+              <p
+                className="inline-flex items-center flex-row-reverse text-xs text-[#656565]"
+                onClick={handleViewApplication}
+              >
                 <HiOutlineArrowRight />
                 View Application&nbsp;
               </p>
-            ) : null}
+            ) : (
+              <></>
+            )}
             <p className="text-3xl">{pay}$/hr</p>
-            <button
-              className="ml-4 inline-flex items-center text-black cursor-pointer"
-              onClick={handleSaveJob}
-            >
-              <HiOutlineBookmark className="mr-1 text-2xl" />
-              <span className="text-black">
-                {isJobSaved ? "Unsave Job" : "Save Job"}
-              </span>
-            </button>
           </div>
         </div>
       </div>
