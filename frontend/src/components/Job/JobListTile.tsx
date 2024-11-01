@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { HiOutlineArrowRight } from "react-icons/hi";
+import { HiOutlineArrowRight, HiOutlineBookmark } from "react-icons/hi";
 import { useSearchParams } from "react-router-dom";
 import { useApplicationStore } from "../../store/ApplicationStore";
 import { useUserStore } from "../../store/UserStore";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { saveJobURL } from "../../api/constants";
 
 interface Job {
   _id: string;
@@ -19,6 +22,7 @@ interface Application {
   status: string;
 }
 
+// Helper function to get affiliation tag
 const getAffiliationTag = (tag?: string): string => {
   return tag ? tag.split("-").join(" ").toUpperCase() : "UNKNOWN AFFILIATION";
 };
@@ -26,8 +30,9 @@ const getAffiliationTag = (tag?: string): string => {
 const JobListTile = ({ data }: { data: Job }) => {
   const [active, setActive] = useState<boolean>(false);
   const [application, setApplication] = useState<Application | null>(null);
+  const [isJobSaved, setIsJobSaved] = useState<boolean>(false); // Added state for saved job
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const userId = useUserStore((state) => state.id);
   const userRole = useUserStore((state) => state.role);
   
@@ -40,6 +45,13 @@ const JobListTile = ({ data }: { data: Job }) => {
     );
     setApplication(temp || null);
   }, [data, applicationList, userId]);
+
+  // Check if the job is saved in local storage
+  useEffect(() => {
+    const savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
+    const jobExists = savedJobs.some((job: Job) => job._id === data._id);
+    setIsJobSaved(jobExists);
+  }, [data]);
 
   // Set active job based on search params
   useEffect(() => {
@@ -64,6 +76,27 @@ const JobListTile = ({ data }: { data: Job }) => {
         return "bg-[#FBD71E]/10";
       default:
         return "bg-[#FF2A2A]/10";
+    }
+  };
+
+  // Handle saving or unsaving a job
+  const handleSaveJob = async (e: any) => {
+    e.stopPropagation();
+    try {
+      if (isJobSaved) {
+        // Unsave job
+        await axios.delete(saveJobURL, { data: { jobId: data._id, userId } });
+        setIsJobSaved(false);
+        toast.info("Job unsaved.");
+      } else {
+        // Save job
+        await axios.post(saveJobURL, { jobId: data._id, userId });
+        setIsJobSaved(true);
+        toast.success("Job saved successfully!");
+      }
+    } catch (error) {
+      console.error("Error saving job:", error);
+      toast.error("Failed to save job.");
     }
   };
 
@@ -105,6 +138,16 @@ const JobListTile = ({ data }: { data: Job }) => {
             {/* Action buttons */}
             {/* Add action button logic here if needed */}
             <p className="text-3xl">{data.pay || "0"}$/hr</p>
+
+            {/* Save/Unsave button */}
+            <button 
+              className="ml-4 inline-flex items-center text-black cursor-pointer"
+              onClick={handleSaveJob}
+            >
+              <HiOutlineBookmark className="mr-1 text-2xl" />
+              <span>{isJobSaved ? "Unsave Job" : "Save Job"}</span>
+            </button>
+
           </div>
         </div>
       </div>
