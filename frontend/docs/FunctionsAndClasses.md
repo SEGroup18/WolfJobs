@@ -209,3 +209,24 @@ The `unsaveJob` function makes an API call to remove a specific job from the use
 - **On Error**:
   - 404 for "User not found"
   - 500 for "Internal Server Error"
+
+### XI. Component JobsListView
+
+#### Parameters:
+- `jobsList` (Job[]): An array of job objects to display.
+- `title` (string, optional): The title for the job list view (default: "All jobs").
+
+#### Method:
+- `'React.FC'`
+
+#### Description:
+The `JobsListView` component displays a list of jobs with filter options for job types. It allows users to filter jobs based on their employment type, specifically 'full-time' and 'part-time'. The component utilizes React hooks (`useState` and `useMemo`) to manage the filter state and efficiently compute the filtered list of jobs.
+
+#### Output:
+- **Rendered UI**: A title for the job list, filter buttons for job types, and a list of job tiles rendered using the `JobListTile` component.
+
+#### Code Explanation:
+- The component accepts a list of jobs and an optional title.
+- It maintains a filter state that determines which jobs are displayed.
+- The filtering logic is memoized to optimize performance.
+- Filter buttons are dynamically generated based on the defined filter types.
