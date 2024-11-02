@@ -1,4 +1,5 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# This workflow will do a clean installation of node dependencies, cache/restore them,
+# build the source code, run tests across different versions of Node, and upload coverage reports.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 name: npm-test-upload
@@ -28,36 +29,52 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - name: Install packages
+      - name: Install packages for frontend
         working-directory: ./frontend
         run: |
           npm ci  # Use npm ci for a clean install based on package-lock.json
 
-      - name: Run build
+      - name: Run build for frontend
         working-directory: ./frontend
         run: |
           npm run build --if-present
 
-      - name: Run tests
+      - name: Run tests for frontend
         working-directory: ./frontend
         run: |
           npm run test  # Ensure this command runs your tests.
 
-      - name: Run tests & coverage
+      - name: Run tests & coverage for frontend
         working-directory: ./frontend
         run: |
           npm run coverage
 
-      - name: Archive production artifacts
+      - name: Archive production artifacts for frontend
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: frontend-dist
           path: |
             frontend/dist
+
+      - name: Install packages for integration_project_2
+        working-directory: ./integration_project_2
+        run: |
+          npm ci  # Use npm ci for a clean install based on package-lock.json
+
+      - name: Run tests for integration_project_2
+        working-directory: ./integration_project_2
+        run: |
+          npm run test  # Ensure this command runs your tests.
+
+      - name: Run tests & coverage for integration_project_2
+        working-directory: ./integration_project_2
+        run: |
+          npm run coverage  # Ensure this command generates coverage reports.
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          path: /frontend/coverage
+          path: /integration_project_2/coverage  # Adjust the path if necessary.
+
 
