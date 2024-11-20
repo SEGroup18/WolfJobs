@@ -1,16 +1,13 @@
 import axios from "axios";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/UserStore";
 import { toast } from "react-toastify";
+import { saveJobURL } from "../../api/constants";
+import SaveJobListView from "../../components/SaveJob/SaveJobListView";
 
-import JobsListView from "../../components/Job/JobListView";
-import JobDetailView from "../../components/Job/JobDetailView";
-import { useJobStore } from "../../store/JobStore";
-import { useApplicationStore } from "../../store/ApplicationStore";
-
-const Explore = () => {
+const SaveJobs = () => {
   const naviagte = useNavigate();
 
   const updateName = useUserStore((state) => state.updateName);
@@ -24,19 +21,8 @@ const Explore = () => {
   const updateGender = useUserStore((state) => state.updateGender);
   const updateHours = useUserStore((state) => state.updateHours);
   const updateIsLoggedIn = useUserStore((state) => state.updateIsLoggedIn);
-
-  const updateApplicationList = useApplicationStore(
-    (state) => state.updateApplicationList
-  );
-  // const userId = useUserStore((state) => state.id);
-
-  // const [displayList, setDisplayList] = useState<Job[]>([]);
-
   const updateEmail = useUserStore((state) => state.updateEmail);
-
-  const updateJobList = useJobStore((state) => state.updateJobList);
-  const jobList: Job[] = useJobStore((state) => state.jobList);
-  // const applicationList = useApplicationStore((state) => state.applicationList);
+  const [jobList, setJobList] = useState([])
 
   useEffect(() => {
     const token: string = localStorage.getItem("token")!;
@@ -61,41 +47,35 @@ const Explore = () => {
       updateIsLoggedIn(true);
     }
   }, []);
-
+  const userId = useUserStore((state) => state.id);
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/v1/users/fetchapplications")
-      .then((res) => {
-        if (res.status !== 200) {
-          toast.error("Error fetching applications");
-          return;
-        }
-        updateApplicationList(res.data.application as Application[]);
-      });
 
-    axios
-      .get("http://localhost:8000/api/v1/users", {
-        params: { page: 1, limit: 25 },
-      })
-      .then((res) => {
-        if (res.status !== 200) {
-          toast.error("Error fetching jobs");
-          return;
+    const handleGetSavedJobs = async () => {
+        try {
+          const response = await axios.post(saveJobURL, {
+            userId, 
+          });
+          
+          const savedJobs = response.data.data; 
+          setJobList(savedJobs);
+          console.log("Saved jobs:", savedJobs);
+        } catch (error) {
+          console.error("Error retrieving saved jobs:", error);
+          toast.error("Failed to retrieve saved jobs.");
         }
-        updateJobList(res.data.jobs as Job[]);
-      });
+      };
+      handleGetSavedJobs();
   }, []);
 
   return (
     <>
       <div className="content bg-slate-50">
         <div className="flex flex-row" style={{ height: "calc(100vh - 72px)" }}>
-          <JobsListView jobsList={jobList} />
-          <JobDetailView />
+          <SaveJobListView jobsList={jobList} />
         </div>
       </div>
     </>
   );
 };
 
-export default Explore;
+export default SaveJobs;

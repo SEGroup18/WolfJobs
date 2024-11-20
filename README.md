@@ -1,21 +1,21 @@
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm-build](https://github.com/deepr41/WolfJobs/actions/workflows/build-checker.yml/badge.svg)](https://github.com/deepr41/WolfJobs/actions/workflows/build-checker.yml)
-[![npm-build](https://github.com/deepr41/WolfJobs/actions/workflows/build-test-upload.yml/badge.svg)](https://github.com/deepr41/WolfJobs/actions/workflows/build-test-upload.yml)
+[![npm-build](https://github.com/SEGroup18/WolfJobs/actions/workflows/build-checker.yml/badge.svg)](https://github.com/SEGroup18/WolfJobs/actions/workflows/build-checker.yml)
+[![npm-build](https://github.com/SEGroup18/WolfJobs/actions/workflows/build-test-upload.yml/badge.svg)](https://github.com/SEGroup18/WolfJobs/actions/workflows/build-test-upload.yml)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
-[![Issues](https://img.shields.io/github/issues/deepr41/wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-[![Issues Closed](https://img.shields.io/github/issues-closed/deepr41/wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-![last commit](https://img.shields.io/github/last-commit/deepr41/Wolfjobs)
-![Lines of code](https://tokei.rs/b1/github/deepr41/wolfjobs)
-[![Repo-size](https://img.shields.io/github/repo-size/deepr41/Wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-[![file_count](https://img.shields.io/github/directory-file-count/deepr41/Wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-[![language_count](https://img.shields.io/github/languages/count/deepr41/Wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-[![Downloads](https://img.shields.io/github/downloads/deepr41/WolfJobs/total)](https://GitHub.com/deepr41/Wolfjobs/)
-[![Top Language](https://img.shields.io/github/languages/top/deepr41/wolfjobs)](https://GitHub.com/deepr41/Wolfjobs/)
-[![DOI](https://zenodo.org/badge/429097663.svg)](https://zenodo.org/badge/latestdoi/429097663)
-[![Release](https://img.shields.io/github/v/release/deepr41/wolfjobs)](https://gitHub.com/deepr41/Wolfjobs)
-[![codecov](https://codecov.io/github/deepr41/WolfJobs/graph/badge.svg?token=RH472ZM4PT)](https://codecov.io/gh/deepr41/WolfJobs)
+[![Issues](https://img.shields.io/badge/issues-8open-brightorange)](https://github.com/SEGroup18/WolfJobs/issues)
+[![Issues Closed](https://img.shields.io/badge/issues%20closed-7-brightgreen)](https://github.com/SEGroup18/WolfJobs/issues)
+![last commit](https://img.shields.io/badge/last%20commit-November%202024-blue)
+![Lines of Code](https://tokei.rs/b1/github/SEGroup18/WolfJobs?refresh=true)
+[![Repo-size](https://img.shields.io/github/repo-size/SEGroup18/WolfJobs)](https://GitHub.com/SEGroup18/WolfJobs/)
+[![file_count](https://img.shields.io/github/directory-file-count/SEGroup18/WolfJobs)](https://GitHub.com/SEGroup18/WolfJobs/)
+[![language_count](https://img.shields.io/github/languages/count/SEGroup18/WolfJobs)](https://GitHub.com/SEGroup18/WolfJobs/)
+[![Downloads](https://img.shields.io/github/downloads/SEGroup18/WolfJobs/total)](https://GitHub.com/SEGroup18/WolfJobs/)
+[![Top Language](https://img.shields.io/github/languages/top/SEGroup18/WolfJobs)](https://GitHub.com/SEGroup18/WolfJobs/)
+[![DOI](https://zenodo.org/badge/879419051.svg)](https://doi.org/10.5281/zenodo.14027438)
+[![Release](https://img.shields.io/github/v/release/deepr41/wolfjobs)](https://gitHub.com/SEGroup18/WolfJobs)
+[![codecov](https://codecov.io/gh/SEGroup18/WolfJobs/branch/integration_project_2/graph/badge.svg?token=WABN8HE0RR)](https://codecov.io/gh/SEGroup18/WolfJobs)
 
 <!-- ![Static Badge](https://img.shields.io/badge/any_text-i_like-blue) -->
 
@@ -148,6 +148,14 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
+# Enhancements Implemented as of now
+
+**1. Save and Unsave Job** -  Allows applicants to save job listings they are interested in and revisit them later. Applicants can also unsave jobs when they are no longer relevant. This feature enhances user experience by enabling easier tracking and personalized job management.
+
+**2. Skill Match Indicator** - Enables employers to specify preferred skills for job postings, allowing applicants to view a match percentage based on their skills. This feature improves application relevance and helps both applicants and recruiters identify suitable matches more effectively.
+
+**3. Filtering System in Jobs List** - A filtering system was added in JobsListView, enabling users to filter job listings by type (all, full-time, part-time). This streamlined approach helps applicants locate relevant job types efficiently. Filter buttons are visually distinct, with the active filter highlighted, and useMemo is employed to optimize performance by updating the job list only when necessary.
+
 # Future Improvements✨
 
 **1. Email Service📧** - On getting selected/rejected to a job, the applicant should be getting an email about it.
@@ -160,15 +168,14 @@ Your app is ready to be deployed!
 
 **5. Interview Appointment Scheduling📆** – WolfJobs will also provide the facility for the hiring manager to organize an interview appointment for the job based on applicant’s availability and convenient time uploaded by the hiring manager. Either of the users can upload their availability time in the G-sheet and using google calendar appointments can be organised.
 
-Other future related items can be found in [Issues section.](https://github.com/deepr41/WolfJobs/issues)
+Other future related items can be found in [Issues section.](https://github.com/SEGroup18/WolfJobs/issues)
 
 # Contributors
 
   <table>
   <tr>
-    <td align="center"><a href="https://github.com/deepr41"><img src="https://avatars.githubusercontent.com/deepr41" width="100px;" alt=""/><br /><b>Deepak Rajendran</b></a></td>
-    <td align="center"><a href="https://github.com/shafa112"><img src="https://avatars.githubusercontent.com/shafa112" width="100px;" alt=""/><br /><b>Shafa Hassan</b></a><br /></td>
-    <td align="center"><a href="https://github.com/Janhavi-23"><img src="https://avatars.githubusercontent.com/Janhavi-23" width="100px;" alt=""/><br /><b>Janhavi Pendse</b></a><br /></td>
-    <td align="center"><a href="https://github.com/deepp2905"><img src="https://avatars.githubusercontent.com/deepp2905" width="100px;" alt=""/><br /><b>Deep Patel</b></a><br /></td>
+    <td align="center"><a href="https://github.com/AShivan26"><img src="https://avatars.githubusercontent.com/u/178510047?s=400&u=c7cc2f2c8a53acac682eeac26f2eaf7c3c688daf&v=4" width="100px;" alt=""/><br /><b>Aniruddha Shivananda</b></a></td>
+    <td align="center"><a href="https://github.com/ishika2201"><img src="https://avatars.githubusercontent.com/u/97585000?v=4" width="100px;" alt=""/><br /><b>Ishika Gandhi</b></a><br /></td>
+    <td align="center"><a href="https://github.com/MarthalaSaiKavya"><img src="https://avatars.githubusercontent.com/u/55596496?v=4" width="100px;" alt=""/><br /><b>Sai Kavya Marthala</b></a><br /></td>
   </tr>
 </table>
